@@ -1,0 +1,178 @@
+#include "../include/Component/Component.h"
+#include "../include/Component/IncludeComponent.h"
+#include "../include/Object.h"
+
+//---------------------component实现
+
+Component::Component(Object* owner, std::string name)
+    : _DirtyStart(false), _Name(name) {
+    this->owner = owner;
+}
+
+void Component::start() { this->_DirtyStart = true; }
+
+void Component::update(float dt) {}
+
+void Component::destroy() { this->owner->destroyComponent(this); }
+
+Component::~Component() { this->destroy(); }
+
+//---------------------AnimaClip实现
+
+AnimaClip::AnimaClip(std::string path, float time, int w, int h, int maxFram)
+    : _TexturePath(path),
+      _Time(time),
+      _CurFram(0),
+      _MaxFram(maxFram),
+      _Tick(0.0),
+      _Fps(0.0) {
+    this->_FrameRect = {0, 0, w, h};
+
+    this->_Fps = this->_Time / this->_MaxFram;
+}
+
+void AnimaClip::update(float dt) {
+    this->_Tick += dt;
+    if (this->_Tick > this->_Fps) {
+        this->_Tick -= this->_Fps;
+        this->_CurFram++;
+    }
+    if (this->_CurFram >= this->_MaxFram) {
+        this->_CurFram = 0;
+    }
+    this->_FrameRect.x = this->_CurFram * this->_FrameRect.w;
+}
+
+AnimaClip::~AnimaClip() {}
+
+//---------------------AnimaComponent实现
+
+AnimaComponent::AnimaComponent(Object* owner, std::string name)
+    : Component(owner, name) {}
+
+void AnimaComponent::start() {
+    Component::start();
+    this->play();
+}
+
+void AnimaComponent::update(float dt) {
+    if (this->_Default == nullptr) return;
+    this->_Default->update(dt);
+
+    if (this->_Sprite == nullptr) return;
+
+    // this->_Sprite->frameRect.x = this->_Default->frameRect.x;
+    // this->_Sprite->frameRect.y = this->_Default->frameRect.y;
+    // this->_Sprite->frameRect.w = this->_Default->frameRect.w;
+    // this->_Sprite->frameRect.h = this->_Default->frameRect.h;
+}
+
+void AnimaComponent::play() {
+    if (this->_Default && this->_Sprite) {
+        // this->_Sprite->texture = MgrResource::getIns()->getRes(
+        //     this->_Default->texturePath, AssetsType::TEXTURE);
+        // this->_Sprite->frameRect = this->_Default->frameRect;
+
+        // this->_Sprite->width = this->_Default->frameRect.w;
+        // this->_Sprite->height = this->_Default->frameRect.h;
+    }
+}
+
+void AnimaComponent::play(std::string name, bool loop) {
+    // if (this->_Animas[name]) {
+    //     this->_Default = this->_Animas[name];
+
+    //     if (this->_Sprite == nullptr) return;
+    //     this->_Sprite->texture = MgrResource::getIns()->getRes(
+    //         this->_Default->texturePath, AssetsType::TEXTURE);
+
+    //     this->_Sprite->frameRect = this->_Default->frameRect;
+    //     this->_Sprite->width = this->_Default->frameRect.w;
+    //     this->_Sprite->height = this->_Default->frameRect.h;
+    // }
+}
+
+void AnimaComponent::addAnimaClip(std::string name, AnimaClip* clip) {
+    this->_Animas[name] = clip;
+
+    if (this->_Default == nullptr) {
+        this->_Default = this->_Animas[name];
+    }
+}
+
+void AnimaComponent::destroy() {
+    for (auto item : this->_Animas) {
+        delete item.second;
+    }
+    this->_Animas.clear();
+}
+
+AnimaComponent::~AnimaComponent() { Component::~Component(); }
+
+//---------------------State实现
+
+State::State(std::string name, std::function<void()> enterCall,
+             std::function<void()> executeCall, std::function<void()> endCall)
+    : _StateName(name),
+      _EnterCall(enterCall),
+      _ExecuteCall(executeCall),
+      _EndCall(endCall) {}
+
+//---------------------StateMachineComponent实现
+
+StateMachineComponent::StateMachineComponent(Object* owner)
+    : Component(owner, "StateMachineComponent"),
+      _CurState(),
+      _LastState(),
+      _NextState() {}
+
+void StateMachineComponent::registerRelation(
+    State* state, const std::vector<std::string> stateNames) {
+    this->_State[state->name] = state;
+    this->_StateRelation[state->name] = stateNames;
+}
+
+void StateMachineComponent::setState(std::string name) {
+    if (this->_CurState.empty() || this->checkRelation(name)) {
+        this->_NextState = this->_CurState;
+        return;
+    }
+}
+
+bool StateMachineComponent::checkRelation(std::string name) {
+    auto relation = this->_StateRelation[this->_CurState];
+    if (!relation.empty()) {
+        auto temp = std::find(relation.begin(), relation.end(), name);
+        if (temp != relation.end()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void StateMachineComponent::start() {}
+
+void StateMachineComponent::update(float dt) {
+    Component::update(dt);
+    if (!this->_CurState.empty()) {
+        this->_State[this->_CurState]->execute();
+    }
+
+    if (!this->_NextState.empty()) {
+        if (!this->_CurState.empty()) {
+            this->_State[this->_CurState]->end();
+        }
+
+        this->_LastState = this->_CurState;
+        this->_CurState = this->_NextState;
+        this->_NextState = "";
+        this->_State[this->_CurState]->enter();
+    }
+}
+
+void StateMachineComponent::destroy() {
+    for (auto item : this->_State) {
+        delete item.second;
+    }
+    this->_State.clear();
+}
