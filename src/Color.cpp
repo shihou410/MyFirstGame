@@ -1,4 +1,4 @@
-#include "../include/Color.h"
+#include "../include/Utils/Color.h"
 
 Color Color::BLOCK = Color(0, 0, 0, 255);
 Color Color::RED = Color(255, 0, 0, 255);

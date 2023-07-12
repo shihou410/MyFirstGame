@@ -6,7 +6,7 @@
 #include "MgrStage.h"
 
 GameRenderObj::GameRenderObj()
-    : anchorX(0.5), anchorY(0.5), scaleX(1.0), scaleY(1.0), GameObject(0, 0) {
+    : anchorX(0.5), anchorY(0.5), scaleX(1.0), scaleY(1.0), Object(0, 0) {
     this->_rect.x = this->_Pos.x;
     this->_rect.y = this->_Pos.y;
     this->_rect.w = 100;
@@ -15,21 +15,21 @@ GameRenderObj::GameRenderObj()
             this->_rect.w, this->_rect.h);
 };
 GameRenderObj::GameRenderObj(float x, float y)
-    : anchorX(0.5), anchorY(0.5), scaleX(1.0), scaleY(1.0), GameObject(x, y) {
+    : anchorX(0.5), anchorY(0.5), scaleX(1.0), scaleY(1.0), Object(x, y) {
     this->_rect.x = this->_Pos.x;
     this->_rect.y = this->_Pos.y;
     this->_rect.w = 100;
     this->_rect.h = 100;
 };
 GameRenderObj::GameRenderObj(float x, float y, float w, float h)
-    : anchorX(0.5), anchorY(0.5), scaleX(1.0), scaleY(1.0), GameObject(x, y) {
+    : anchorX(0.5), anchorY(0.5), scaleX(1.0), scaleY(1.0), Object(x, y) {
     this->_rect.x = this->_Pos.x;
     this->_rect.y = this->_Pos.y;
     this->_rect.w = w;
     this->_rect.h = h;
 };
 
-void GameRenderObj::update(float dt) { GameObject::update(dt); }
+void GameRenderObj::update(float dt) { Object::update(dt); }
 
 void GameRenderObj::refreshRect() {
     auto temp = MgrStage::getIns()->worldToScreen(this->_Pos);
@@ -39,11 +39,11 @@ void GameRenderObj::refreshRect() {
 }
 
 void GameRenderObj::start() {
-    GameObject::start();
+    Object::start();
     this->refreshRect();
 }
 
-void GameRenderObj::destroy() { GameObject::destroy(); }
+void GameRenderObj::destroy() { Object::destroy(); }
 
 void GameRenderObj::render() { this->refreshRect(); }
 

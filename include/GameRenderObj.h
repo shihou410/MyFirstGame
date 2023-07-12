@@ -2,8 +2,8 @@
 
 #include <SDL2/SDL_rect.h>
 
-#include "GameObject.h"
-class GameRenderObj : public GameObject {
+#include "Object.h"
+class GameRenderObj : public Object {
    public:
     GameRenderObj();
     GameRenderObj(float x, float y);

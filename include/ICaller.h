@@ -1,7 +1,9 @@
 #pragma once
 class ICaller {
-public:
-  bool bCallerValid;
-  ICaller() : bCallerValid(true) {}
-  virtual ~ICaller() { bCallerValid = false; }
+    bool _CallerValid;
+
+   public:
+    const bool& callerValid = this->_CallerValid;
+    ICaller() : _CallerValid(true) {}
+    virtual ~ICaller() { _CallerValid = false; }
 };

@@ -1,6 +1,6 @@
-#include "../include/GameConst.h"
-
 #include <string>
+
+#include "../include/Utils/Const.h"
 
 std::string StateType::JUMP = "JUMP";
 std::string StateType::MOVE = "MOVE";
