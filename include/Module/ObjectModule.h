@@ -2,8 +2,8 @@
 
 #include <vector>
 
-#include "GameRenderObj.h"
-#include "ICaller.h"
+#include "../GameRenderObj.h"
+#include "../ICaller.h"
 #include "Module.h"
 /** 游戏对象管理*/
 class ObjectModule : public Module {
