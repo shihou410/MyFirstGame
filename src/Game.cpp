@@ -2,31 +2,31 @@
 
 #include <SDL2/SDL_log.h>
 
-GameManager *GameManager::ins = nullptr;
-GameManager *GameManager::getIns() {
-    if (GameManager::ins == nullptr) {
-        GameManager::ins = new GameManager();
+Game *Game::ins = nullptr;
+Game *Game::getIns() {
+    if (Game::ins == nullptr) {
+        Game::ins = new Game();
     }
-    return GameManager::ins;
+    return Game::ins;
 }
 
-GameManager::GameManager() {}
+Game::Game() {}
 
-void GameManager::GameInit() {}
+void Game::GameInit() {}
 
-void GameManager::GameStart() {
+void Game::GameStart() {
     for (auto item : this->_modules) {
         item->onStart();
     }
 }
 
-void GameManager::GameUpdate(float dt) {
+void Game::GameUpdate(float dt) {
     for (auto item : this->_modules) {
         item->onUpdate(dt);
     }
 }
 
-void GameManager::GameExit() {
+void Game::GameExit() {
     SDL_Log("游戏退出");
     while (this->_modules.size() > 0) {
         auto temp = this->_modules.end() - 1;
@@ -36,17 +36,17 @@ void GameManager::GameExit() {
     }
 };
 
-void GameManager::GameRender() {
+void Game::GameRender() {
     // MgrObject::getIns()->render();
 }
 
-void GameManager::GameClean() {
+void Game::GameClean() {
     for (auto item : this->_modules) {
         item->onClean();
     }
 }
 
-Module *GameManager::getModuleByName(std::string name) {
+Module *Game::getModuleByName(std::string name) {
     for (auto item : this->_modules) {
         if (item->name == name) {
             return item;
@@ -55,4 +55,4 @@ Module *GameManager::getModuleByName(std::string name) {
     return nullptr;
 }
 
-GameManager::~GameManager() {}
+Game::~Game() {}

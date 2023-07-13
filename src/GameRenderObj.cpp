@@ -2,8 +2,8 @@
 
 #include <SDL2/SDL_log.h>
 
-#include "GameObject.h"
-#include "MgrStage.h"
+#include "../include/Module/StageModule.h"
+#include "Object.h"
 
 GameRenderObj::GameRenderObj()
     : anchorX(0.5), anchorY(0.5), scaleX(1.0), scaleY(1.0), Object(0, 0) {
@@ -32,10 +32,10 @@ GameRenderObj::GameRenderObj(float x, float y, float w, float h)
 void GameRenderObj::update(float dt) { Object::update(dt); }
 
 void GameRenderObj::refreshRect() {
-    auto temp = MgrStage::getIns()->worldToScreen(this->_Pos);
+    // auto temp = MgrStage::getIns()->worldToScreen(this->_Pos);
 
-    this->_rect.x = temp.x - this->width * this->anchorX;
-    this->_rect.y = temp.y - this->height * this->anchorY;
+    // this->_rect.x = temp.x - this->width * this->anchorX;
+    // this->_rect.y = temp.y - this->height * this->anchorY;
 }
 
 void GameRenderObj::start() {

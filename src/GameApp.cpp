@@ -6,8 +6,7 @@
 #include <SDL2/SDL_scancode.h>
 #include <SDL2/SDL_timer.h>
 
-#include "../include/GameManager.h"
-#include "../include/MgrObject.h"
+#include "../include/Game.h"
 #include "SDL_video.h"
 GameApp *GameApp::ins = nullptr;
 
@@ -41,7 +40,7 @@ void GameApp::init() {
         return;
     }
 
-    GameManager::getIns()->GameInit();
+    Game::getIns()->GameInit();
 
     this->startTick = SDL_GetTicks();
 
@@ -49,7 +48,7 @@ void GameApp::init() {
 }
 
 void GameApp::Run() {
-    GameManager::getIns()->GameStart();
+    Game::getIns()->GameStart();
 
     while (run) {
         this->Updata();
@@ -59,11 +58,11 @@ void GameApp::Run() {
     SDL_DestroyWindow(window);
     SDL_Quit();
 
-    GameManager::getIns()->GameExit();
+    Game::getIns()->GameExit();
 }
 
 void GameApp::Updata() {
-    while (!SDL_TICKS_PASSED(SDL_GetTicks(), this->startTick + 16)) {
+    while (!SDL_TICKS_PASSED(SDL_GetTicks(), this->startTick + FPS)) {
     };
 
     auto tick = (SDL_GetTicks() - this->startTick) / 1000;
@@ -82,12 +81,12 @@ void GameApp::Updata() {
         }
     }
 
-    GameManager::getIns()->GameUpdate(tick);
+    Game::getIns()->GameUpdate(tick);
 
     SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
     SDL_RenderClear(render);
-    GameManager::getIns()->GameRender();
+    Game::getIns()->GameRender();
     SDL_RenderPresent(render);
 
-    GameManager::getIns()->GameClean();
+    Game::getIns()->GameClean();
 }

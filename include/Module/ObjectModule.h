@@ -6,15 +6,15 @@
 #include "ICaller.h"
 #include "Module.h"
 /** 游戏对象管理*/
-class MgrObject : public Module {
+class ObjectModule : public Module {
    private:
-    static MgrObject *ins;
-    MgrObject();
+    static ObjectModule *ins;
+    ObjectModule();
     std::vector<GameRenderObj *> activeObj;
     std::vector<GameRenderObj *> deadObj;
 
    public:
-    static MgrObject *getIns();
+    static ObjectModule *getIns();
 
     void onLoad() override;
     void onStart() override;
@@ -27,5 +27,5 @@ class MgrObject : public Module {
 
     void destroyDeadObj();
 
-    ~MgrObject();
+    ~ObjectModule();
 };

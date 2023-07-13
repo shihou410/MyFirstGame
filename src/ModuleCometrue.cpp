@@ -8,7 +8,7 @@
 Module::Module(std::string name) : name(name) {}
 Module::~Module() {}
 
-//-------------------------------Module实现
+//-------------------------------InputModule实现
 InputModule *InputModule::ins = nullptr;
 
 InputModule *InputModule::getIns() {
@@ -112,7 +112,7 @@ SDL_Texture *ResourceModule::getRes(std::string path, AssetsType type) {
     // };
 }
 
-//-------------------------------Module实现
+//-------------------------------StageModule实现
 StageModule *StageModule::ins = nullptr;
 
 StageModule *StageModule::getIns() {
@@ -143,4 +143,70 @@ void StageModule::screenToWorld(Vec2 &pos) {}
 
 StageModule::~StageModule() {}
 
-//-------------------------------Module实现
+//-------------------------------ObjectModule实现
+ObjectModule *ObjectModule::ins = nullptr;
+
+ObjectModule::ObjectModule() : Module("ObjectModule") {}
+
+void ObjectModule::onLoad() {}
+
+void ObjectModule::onStart() {}
+
+void ObjectModule::onUpdate(float dt) {
+    for (auto item : this->activeObj) {
+        if (!item->dirtyStart) item->start();
+    }
+
+    for (auto item : this->activeObj) {
+        item->update(dt);
+    }
+}
+
+void ObjectModule::render() {
+    for (auto item : this->activeObj) {
+        item->render();
+    }
+}
+
+void ObjectModule::onClean() { this->destroyDeadObj(); }
+
+void ObjectModule::addObj(GameRenderObj *obj) {
+    this->activeObj.push_back(obj);
+}
+void ObjectModule::removeObj(GameRenderObj *obj) {
+    auto resualt =
+        std::find(this->activeObj.begin(), this->activeObj.end(), obj);
+
+    if (resualt != this->activeObj.end()) {
+        auto temp = *resualt;
+        this->activeObj.erase(resualt);
+        temp->valid = false;
+        this->deadObj.push_back(temp);
+    }
+}
+
+void ObjectModule::destroyDeadObj() {
+    for (auto item : this->deadObj) {
+        delete item;
+    }
+    this->deadObj.clear();
+}
+
+ObjectModule *ObjectModule::getIns() {
+    if (ObjectModule::ins == nullptr) {
+        ObjectModule::ins = new ObjectModule();
+    }
+    return ObjectModule::ins;
+}
+
+ObjectModule::~ObjectModule() {
+    for (auto item : this->activeObj) {
+        delete item;
+    }
+    this->activeObj.clear();
+
+    for (auto item : this->deadObj) {
+        delete item;
+    }
+    this->deadObj.clear();
+}

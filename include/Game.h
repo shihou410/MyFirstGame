@@ -7,11 +7,11 @@
 #include "./Module/Module.h"
 
 /** 管理游戏模块*/
-class GameManager {
+class Game {
    private:
-    static GameManager *ins;
+    static Game *ins;
 
-    GameManager();
+    Game();
     std::vector<Module *> _modules;
 
    public:
@@ -25,9 +25,9 @@ class GameManager {
 
     void GameExit();
 
-    ~GameManager();
+    ~Game();
 
-    static GameManager *getIns();
+    static Game *getIns();
 
     Module *getModuleByName(std::string name);
 };

@@ -4,6 +4,7 @@
 #include <string>
 
 #include "./Component/Component.h"
+#include "./Module/StageModule.h"
 #include "./Utils/Vec2.h"
 #include "ICaller.h"
 
