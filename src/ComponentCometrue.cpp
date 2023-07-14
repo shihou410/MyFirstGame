@@ -142,10 +142,10 @@ void StateMachineComponent::setState(std::string name) {
 bool StateMachineComponent::checkRelation(std::string name) {
     auto relation = this->_StateRelation[this->_CurState];
     if (!relation.empty()) {
-        auto temp = std::find(relation.begin(), relation.end(), name);
-        if (temp != relation.end()) {
-            return true;
-        }
+        // auto temp = std::find(relation.begin(), relation.end(), name);
+        // if (temp != relation.end()) {
+        //     return true;
+        // }
     }
     return false;
 }
