@@ -2,18 +2,22 @@
 
 #include <SDL2/SDL_rect.h>
 
+#include <string>
+
 #include "Object.h"
-class GameRenderObj : public Object {
+class RenderObj : public Object {
    public:
-    GameRenderObj();
-    GameRenderObj(float x, float y);
-    GameRenderObj(float x, float y, float w, float h);
-    virtual ~GameRenderObj();
+    RenderObj();
+    RenderObj(float x, float y);
+    RenderObj(float x, float y, float w, float h);
+    virtual ~RenderObj();
 
     void virtual start();
     void virtual update(float dt);
     void virtual render();
     void virtual destroy();
+
+    void loadFrame(std::string name);
 
    private:
     void refreshRect();

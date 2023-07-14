@@ -1,7 +1,7 @@
 #include "../include/Component/Component.h"
 #include "../include/Component/IncludeComponent.h"
 #include "../include/Object.h"
-
+#include "../include/Utils/Const.h"
 //---------------------component实现
 
 Component::Component(Object* owner, std::string name)
@@ -15,7 +15,7 @@ void Component::update(float dt) {}
 
 void Component::destroy() { this->owner->destroyComponent(this); }
 
-Component::~Component() { this->destroy(); }
+Component::~Component() {}
 
 //---------------------AnimaClip实现
 
@@ -176,3 +176,42 @@ void StateMachineComponent::destroy() {
     }
     this->_State.clear();
 }
+//---------------------TransformComponent实现
+
+TransformComponent::TransformComponent(Object* owner, float x, float y)
+    : Component(owner, "TransformComponent"),
+      _Angle(0),
+      _Scale(0.0, 0.0),
+      _Position(x, y) {}
+
+void TransformComponent::start() {}
+
+void TransformComponent::update(float dt) {
+    this->_Position.x = GameConfig::screen_width / 2.0 + this->_Position.x;
+    this->_Position.y = this->_Position.y - GameConfig::screen_height / 2.0;
+}
+
+void TransformComponent::destroy() {
+    if (this->owner) this->owner->destroyComponent(this);
+}
+
+TransformComponent::~TransformComponent() { this->destroy(); }
+
+//---------------------SpriteComponent实现
+
+SpriteComponent::SpriteComponent(Object* owner, float w, float h)
+    : Component(owner, "SpriteComponent") {
+    this->_Rect = {owner->x, owner->y, w, h};
+}
+
+void SpriteComponent::start() { Component::start(); }
+
+void SpriteComponent::update(float dt) {
+    Component::update(dt);
+    this->_Rect.x = owner->x;
+    this->_Rect.y = owner->y;
+}
+
+void SpriteComponent::destroy() { Component::destroy(); }
+
+SpriteComponent::~SpriteComponent() { Component::~Component(); }

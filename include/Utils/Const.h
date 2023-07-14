@@ -4,6 +4,7 @@
 #include <string>
 
 class StateType {
+   public:
     static std::string JUMP;
     static std::string MOVE;
     static std::string IDLE;
@@ -23,3 +24,9 @@ typedef enum {
     KEY_LEFT = SDL_SCANCODE_LEFT,
     KEY_RIGHT = SDL_SCANCODE_RIGHT,
 } KeyCode;
+
+class GameConfig {
+   public:
+    static int screen_width;
+    static int screen_height;
+};

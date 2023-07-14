@@ -27,11 +27,9 @@ void Game::GameUpdate(float dt) {
 }
 
 void Game::GameExit() {
-    SDL_Log("游戏退出");
     while (this->_modules.size() > 0) {
         auto temp = this->_modules.end() - 1;
         this->_modules.pop_back();
-        SDL_Log("销毁游戏模块：%s", (*temp)->name.c_str());
         delete (*temp);
     }
 };

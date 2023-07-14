@@ -4,7 +4,6 @@
 #include <SDL2/SDL_render.h>
 
 #include "../include/GameApp.h"
-#include "SDL_rect.h"
 GraphicRectangle::GraphicRectangle() : GameRenderObj(), hState(0), vState(0) {
     SDL_Log("GraphicRectangle构造函数：%f,%f,%f,%f", this->_rect.x,
             this->_rect.y, this->_rect.w, this->_rect.h);

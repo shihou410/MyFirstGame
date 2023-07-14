@@ -154,10 +154,6 @@ void ObjectModule::onStart() {}
 
 void ObjectModule::onUpdate(float dt) {
     for (auto item : this->activeObj) {
-        if (!item->dirtyStart) item->start();
-    }
-
-    for (auto item : this->activeObj) {
         item->update(dt);
     }
 }

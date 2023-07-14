@@ -7,7 +7,7 @@
 #include <SDL2/SDL_timer.h>
 
 #include "../include/Game.h"
-#include "SDL_video.h"
+
 GameApp *GameApp::ins = nullptr;
 
 GameApp::GameApp(int width, int heigh) : width(width), heigh(heigh) {
