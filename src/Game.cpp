@@ -12,7 +12,7 @@ Game *Game::getIns() {
 
 Game::Game() {}
 
-void Game::GameInit() { SDL_Log("好烦啊！"); }
+void Game::GameInit() {}
 
 void Game::GameStart() {
     for (auto item : this->_modules) {
