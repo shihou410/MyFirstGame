@@ -166,10 +166,8 @@ void ObjectModule::render() {
 
 void ObjectModule::onClean() { this->destroyDeadObj(); }
 
-void ObjectModule::addObj(GameRenderObj *obj) {
-    this->activeObj.push_back(obj);
-}
-void ObjectModule::removeObj(GameRenderObj *obj) {
+void ObjectModule::addObj(RenderObj *obj) { this->activeObj.push_back(obj); }
+void ObjectModule::removeObj(RenderObj *obj) {
     auto resualt =
         std::find(this->activeObj.begin(), this->activeObj.end(), obj);
 

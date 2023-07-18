@@ -2,16 +2,16 @@
 
 #include <vector>
 
-#include "../GameRenderObj.h"
 #include "../ICaller.h"
+#include "../RenderObj.h"
 #include "Module.h"
 /** 游戏对象管理*/
 class ObjectModule : public Module {
    private:
     static ObjectModule *ins;
     ObjectModule();
-    std::vector<GameRenderObj *> activeObj;
-    std::vector<GameRenderObj *> deadObj;
+    std::vector<RenderObj *> activeObj;
+    std::vector<RenderObj *> deadObj;
 
    public:
     static ObjectModule *getIns();
@@ -22,8 +22,8 @@ class ObjectModule : public Module {
     void onClean() override;
     void render();
 
-    void addObj(GameRenderObj *obj);
-    void removeObj(GameRenderObj *obj);
+    void addObj(RenderObj *obj);
+    void removeObj(RenderObj *obj);
 
     void destroyDeadObj();
 
