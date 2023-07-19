@@ -25,7 +25,11 @@ void Game::GameUpdate(float dt) {
     Loop(dt);
 }
 
-void Game::GameRender(SDL_Renderer *render) {}
+void Game::GameRender(SDL_Renderer *render) {
+    for (auto item : this->_Actors) {
+        item->render(render);
+    }
+}
 
 void Game::GameClean() {
     for (auto item : this->_Modules) {

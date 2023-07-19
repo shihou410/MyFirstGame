@@ -5,16 +5,18 @@
 #include <string>
 
 #include "Object.h"
+class SDL_Renderer;
+class Game;
 class Actor : public Object {
    public:
-    Actor();
-    Actor(float x, float y);
-    Actor(float x, float y, float w, float h);
+    Actor(Game *game);
+    Actor(Game *game, float x, float y);
+    Actor(Game *game, float x, float y, float w, float h);
     virtual ~Actor();
 
     void virtual start();
     void virtual update(float dt);
-    void virtual render();
+    void virtual render(SDL_Renderer *render);
     void virtual destroy();
 
     void loadFrame(std::string name);
@@ -23,11 +25,12 @@ class Actor : public Object {
     void refreshRect();
 
    protected:
-    SDL_FRect _rect;
+    SDL_FRect _Rect;
+    Game *_Game;
 
    public:
     float anchorX, anchorY;
     float scaleX, scaleY;
-    float &width = this->_rect.w;
-    float &height = this->_rect.h;
+    float &width = this->_Rect.w;
+    float &height = this->_Rect.h;
 };
