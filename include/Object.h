@@ -5,7 +5,6 @@
 
 #include "./Component/Component.h"
 #include "./Component/TransformComponent.h"
-#include "./Module/StageModule.h"
 #include "./Utils/Vec2.h"
 #include "ICaller.h"
 /** 游戏对象基类*/

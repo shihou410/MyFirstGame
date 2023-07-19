@@ -5,12 +5,12 @@
 #include <string>
 
 #include "Object.h"
-class RenderObj : public Object {
+class Actor : public Object {
    public:
-    RenderObj();
-    RenderObj(float x, float y);
-    RenderObj(float x, float y, float w, float h);
-    virtual ~RenderObj();
+    Actor();
+    Actor(float x, float y);
+    Actor(float x, float y, float w, float h);
+    virtual ~Actor();
 
     void virtual start();
     void virtual update(float dt);

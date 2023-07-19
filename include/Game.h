@@ -2,32 +2,36 @@
 #include <SDL2/SDL_render.h>
 
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "./Module/Module.h"
+#include "SDL_events.h"
 
+class Actor;
+class GameApp;
+class SDL_Renderer;
 /** 管理游戏模块*/
 class Game {
    private:
-    static Game *ins;
+    std::unordered_map<std::string, Module *> _Modules;
+    std::vector<Actor *> _Actors;
+    GameApp *_App = nullptr;
 
-    Game();
-    std::vector<Module *> _modules;
+    void Loop(float dt);
 
    public:
+    Game(GameApp *app);
     void addModule(Module *module);
-
+    Module *getModuleByName(std::string name);
     void GameInit();
-    void GameStart();
+    void GameInput(SDL_Event e);
     void GameUpdate(float dt);
-    void GameRender();
+    void GameRender(SDL_Renderer *render);
     void GameClean();
-
-    void GameExit();
-
     ~Game();
 
-    static Game *getIns();
-
-    Module *getModuleByName(std::string name);
+   public:
+    void addActor(Actor *actor);
+    void destroyActor(Actor *actor);
 };

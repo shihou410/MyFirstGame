@@ -1,6 +1,6 @@
 #include "include/GameApp.h"
 int main() {
-    GameApp::getIns()->Run();
-
+    GameApp app;
+    app.Run();
     return 0;
 }

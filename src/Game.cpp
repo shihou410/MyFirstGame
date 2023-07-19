@@ -2,55 +2,58 @@
 
 #include <SDL2/SDL_log.h>
 
-Game *Game::ins = nullptr;
-Game *Game::getIns() {
-    if (Game::ins == nullptr) {
-        Game::ins = new Game();
-    }
-    return Game::ins;
-}
+#include <algorithm>
 
-Game::Game() {}
+#include "Actor.h"
 
-void Game::GameInit() {}
+Game::Game(GameApp *app) : _App(app) {}
 
-void Game::GameStart() {
-    for (auto item : this->_modules) {
-        item->onStart();
+void Game::GameInit() {
+    for (auto module : this->_Modules) {
+        module.second->onLoad();
     }
 }
+
+void Game::GameInput(SDL_Event e) {}
 
 void Game::GameUpdate(float dt) {
-    for (auto item : this->_modules) {
-        item->onUpdate(dt);
+    /** 更新模块*/
+    for (auto module : this->_Modules) {
+        module.second->onUpdate(dt);
     }
+
+    Loop(dt);
 }
 
-void Game::GameExit() {
-    while (this->_modules.size() > 0) {
-        auto temp = this->_modules.end() - 1;
-        this->_modules.pop_back();
-        delete (*temp);
-    }
-};
-
-void Game::GameRender() {
-    // MgrObject::getIns()->render();
-}
+void Game::GameRender(SDL_Renderer *render) {}
 
 void Game::GameClean() {
-    for (auto item : this->_modules) {
-        item->onClean();
+    for (auto item : this->_Modules) {
+        delete item.second;
+    }
+
+    for (auto item : this->_Actors) {
+        delete item;
     }
 }
 
-Module *Game::getModuleByName(std::string name) {
-    for (auto item : this->_modules) {
-        if (item->name == name) {
-            return item;
-        }
+void Game::addModule(Module *module) { this->_Modules[module->name] = module; }
+Module *Game::getModuleByName(std::string name) { return this->_Modules[name]; }
+
+void Game::Loop(float dt) {
+    for (auto item : this->_Actors) {
+        item->update(dt);
     }
-    return nullptr;
 }
 
 Game::~Game() {}
+
+void Game::addActor(Actor *actor) { this->_Actors.push_back(actor); }
+void Game::destroyActor(Actor *actor) {
+    auto resual = std::find(this->_Actors.begin(), this->_Actors.end(), actor);
+    if (resual != this->_Actors.end()) {
+        auto temp = *resual;
+        this->_Actors.erase(resual);
+        delete temp;
+    }
+}
