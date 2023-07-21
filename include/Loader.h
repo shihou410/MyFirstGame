@@ -15,7 +15,7 @@ class Loader {
     static Loader* getIns();
     void push(std::string path);
     void load(SDL_Renderer* render);
-    void* getRes(std::string path);
+    SDL_Texture* getRes(std::string path);
 
     ~Loader();
 };

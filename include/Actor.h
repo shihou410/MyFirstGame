@@ -5,6 +5,7 @@
 #include <string>
 
 #include "Object.h"
+class SpriteComponent;
 class SDL_Renderer;
 class Game;
 class Actor : public Object {
@@ -27,6 +28,7 @@ class Actor : public Object {
    protected:
     SDL_FRect _Rect;
     Game *_Game;
+    SpriteComponent *_Sprite;
 
    public:
     float anchorX, anchorY;

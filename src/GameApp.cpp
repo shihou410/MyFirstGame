@@ -7,6 +7,7 @@
 #include <SDL2/SDL_timer.h>
 
 #include "../include/Game.h"
+#include "Loader.h"
 #include "SDL_render.h"
 #include "Utils/Const.h"
 
@@ -37,6 +38,14 @@ void GameApp::init() {
     }
     this->startTick = SDL_GetTicks();
     this->timeClock = 0;
+
+    Loader::getIns()->push("/assets/MyGame/test/hero.png");
+    // Loader::getIns()->push("");
+    // Loader::getIns()->push("");
+    // Loader::getIns()->push("");
+
+    Loader::getIns()->load(this->render);
+
     this->_Game->GameInit();
 }
 

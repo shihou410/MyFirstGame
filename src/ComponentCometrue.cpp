@@ -1,7 +1,14 @@
+#include <string>
+
 #include "../include/Component/Component.h"
 #include "../include/Component/IncludeComponent.h"
 #include "../include/Object.h"
 #include "../include/Utils/Const.h"
+#include "Loader.h"
+#include "SDL_error.h"
+#include "SDL_log.h"
+#include "SDL_render.h"
+#include "SDL_stdinc.h"
 //---------------------component实现
 
 Component::Component(Object* owner, std::string name)
@@ -213,5 +220,22 @@ void SpriteComponent::update(float dt) {
 }
 
 void SpriteComponent::destroy() { Component::destroy(); }
+
+void SpriteComponent::loadSpriteFrame(std::string path) {
+    this->_Tex = Loader::getIns()->getRes(path);
+    if (this->_Tex == nullptr) {
+        SDL_Log("\033[34m 资源不存在：\033[31m %s \033[0m", path.c_str());
+        return;
+    }
+    int ww, hh;
+    SDL_QueryTexture(this->_Tex, nullptr, nullptr, &ww, &hh);
+    this->w = static_cast<float>(ww);
+    this->h = static_cast<float>(hh);
+}
+
+void SpriteComponent::render(SDL_Renderer* render) {
+    SDL_RenderCopyExF(render, this->_Tex, nullptr, &this->_Rect,
+                      this->owner->transform->angle, nullptr, SDL_FLIP_NONE);
+}
 
 SpriteComponent::~SpriteComponent() { Component::~Component(); }

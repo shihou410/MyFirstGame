@@ -12,6 +12,9 @@ void Game::GameInit() {
     for (auto module : this->_Modules) {
         module.second->onLoad();
     }
+
+    auto actor = new Actor(this, 0, 0);
+    actor->loadFrame("/assets/MyGame/test/hero.png");
 }
 
 void Game::GameInput(SDL_Event e) {}
