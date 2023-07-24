@@ -3,9 +3,12 @@
 #include "../include/Component/Component.h"
 #include "../include/Component/TransformComponent.h"
 #include "../include/Utils/Vec2.h"
+#include "SDL_log.h"
 Object::Object(float x, float y) : _Valid(false) {
     this->transform = new TransformComponent(this, x, y);
-    addComponent(this->transform);
+    this->addComponent(this->transform);
+
+    SDL_Log("我服了：-：：%f,%f", this->x, this->y);
 }
 
 void Object::start() {}

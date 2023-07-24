@@ -4,8 +4,8 @@
 
 #include <algorithm>
 
+#include "../include/GameApp.h"
 #include "../include/Module/Include.h"
-#include "GameApp.h"
 
 //-------------------------------Module实现
 Module::Module(std::string name, Game *game) : name(name), _Game(game) {}

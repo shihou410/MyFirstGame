@@ -13,8 +13,10 @@ void Game::GameInit() {
         module.second->onLoad();
     }
 
-    auto actor = new Actor(this, 0, 0);
-    actor->loadFrame("/assets/MyGame/test/hero.png");
+    auto actor = new Actor(this, 0, 0, 512, 512);
+    actor->loadFrame("/assets/MyGame/hero/hero.png");
+
+    this->addActor(actor);
 }
 
 void Game::GameInput(SDL_Event e) {}

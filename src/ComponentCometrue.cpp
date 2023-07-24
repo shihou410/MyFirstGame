@@ -2,10 +2,11 @@
 
 #include "../include/Component/Component.h"
 #include "../include/Component/IncludeComponent.h"
+#include "../include/Loader.h"
 #include "../include/Object.h"
 #include "../include/Utils/Const.h"
-#include "Loader.h"
 #include "SDL_error.h"
+#include "SDL_image.h"
 #include "SDL_log.h"
 #include "SDL_render.h"
 #include "SDL_stdinc.h"
@@ -208,6 +209,7 @@ TransformComponent::~TransformComponent() { this->destroy(); }
 
 SpriteComponent::SpriteComponent(Object* owner, float w, float h)
     : Component(owner, "SpriteComponent") {
+    SDL_Log("我服了：？：：%f,%f", owner->x, owner->y);
     this->_Rect = {owner->x, owner->y, w, h};
 }
 
@@ -234,8 +236,10 @@ void SpriteComponent::loadSpriteFrame(std::string path) {
 }
 
 void SpriteComponent::render(SDL_Renderer* render) {
-    SDL_RenderCopyExF(render, this->_Tex, nullptr, &this->_Rect,
-                      this->owner->transform->angle, nullptr, SDL_FLIP_NONE);
+    SDL_RenderCopyExF(render,
+                      Loader::getIns()->getRes("/assets/MyGame/hero/hero.png"),
+                      nullptr, &this->_Rect, this->owner->transform->angle,
+                      nullptr, SDL_FLIP_NONE);
 }
 
 SpriteComponent::~SpriteComponent() { Component::~Component(); }

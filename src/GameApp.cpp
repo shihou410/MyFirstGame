@@ -39,12 +39,12 @@ void GameApp::init() {
     this->startTick = SDL_GetTicks();
     this->timeClock = 0;
 
-    Loader::getIns()->push("/assets/MyGame/test/hero.png");
+    Loader::getIns()->push("/assets/MyGame/hero/hero.png", this->render);
     // Loader::getIns()->push("");
     // Loader::getIns()->push("");
     // Loader::getIns()->push("");
 
-    Loader::getIns()->load(this->render);
+    // Loader::getIns()->load(this->render);
 
     this->_Game->GameInit();
 }

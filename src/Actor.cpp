@@ -7,12 +7,21 @@
 #include "Loader.h"
 #include "Module/Module.h"
 #include "SDL_render.h"
-Actor::Actor(Game *game) : Object(0, 0), _Game(game){};
-Actor::Actor(Game *game, float x, float y) : Object(x, y), _Game(game){};
+Actor::Actor(Game *game) : Object(0, 0), _Game(game) {
+    this->_Rect = {0, 0, 100, 100};
+    this->_Sprite = new SpriteComponent(this, 100, 100);
+    this->addComponent(this->_Sprite);
+};
+Actor::Actor(Game *game, float x, float y) : Object(x, y), _Game(game) {
+    this->_Rect = {x, y, 100, 100};
+    this->_Sprite = new SpriteComponent(this, 100, 100);
+    this->addComponent(this->_Sprite);
+};
 Actor::Actor(Game *game, float x, float y, float w, float h)
     : Object(x, y), _Game(game), _Sprite(nullptr) {
     ;
-    this->_Sprite = new SpriteComponent(this, 100, 100);
+    this->_Rect = {x, y, w, h};
+    this->_Sprite = new SpriteComponent(this, w, h);
     this->addComponent(this->_Sprite);
 };
 

@@ -19,7 +19,9 @@ Loader* Loader::getIns() {
 
 Loader::Loader() {}
 
-void Loader::push(std::string path) { this->_TextureRes[path] = nullptr; }
+void Loader::push(std::string path, SDL_Renderer* render) {
+    this->_TextureRes[path] = IMG_LoadTexture(render, path.c_str());
+}
 
 void Loader::load(SDL_Renderer* render) {
     for (auto item : this->_TextureRes) {
@@ -36,7 +38,8 @@ SDL_Texture* Loader::getRes(std::string path) {
 }
 
 Loader::~Loader() {
-    for (auto item : this->_TextureRes) {
-        SDL_DestroyTexture(item.second);
-    }
+    // for (auto item : this->_TextureRes) {
+    //     SDL_DestroyTexture(item.second);
+    // }
+    // this->_TextureRes.clear();
 }
